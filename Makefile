@@ -1,10 +1,11 @@
 # Compiler and Tools
 CC = x86_64-w64-mingw32-gcc
 WIDL = widl
-CFLAGS = -O2 -Wall -I.
+CFLAGS = -O2 -Wall -I. -I/usr/include/wine/windows -I/usr/include/wine
+WIDLFLAGS = -h -I. -I/usr/include/wine/windows -I/usr/include/wine
 LDFLAGS = -shared -s
 
-# Module and Libraries from your template
+# Module and Libraries
 MODULE = xgameruntime.dll
 LIBS = -lcombase -lbcrypt -lwinhttp -lwininet -lws2_32
 
@@ -16,31 +17,24 @@ C_SRCS = json_min.c main.c shim_ipc.c shim_xml.c sisu_auth.c \
          xnetworking.c xpackage.c xpersistentlocalstorage.c xstore.c \
          xsystem.c xsystemanalytics.c xthreading.c xuser.c
 
-IDL_SRCS = xaccessibility.idl xappcapture.idl xasyncprovider.idl xdisplay.idl \
-           xerror.idl xgame.idl xgameactivation.idl xgameevent.idl \
-           xgameinvite.idl xgameprotocol.idl xgameruntimefeature.idl \
-           xgamesave.idl xgamestreaming.idl xgameui.idl xnetworking.idl \
-           xpackage.idl xpersistentlocalstorage.idl xstore.idl xsystem.idl xuser.idl
-
+IDL_SRCS = $(wildcard *.idl)
 IDL_HEADERS = $(IDL_SRCS:.idl=.h)
 OBJS = $(C_SRCS:.c=.o)
 
-# Default target
 all: $(MODULE)
 
-# Generate header files from .idl files using widl
-%.h: %.idl
-	$(WIDL) -h -o $@ $<
+headers: $(IDL_HEADERS)
 
-# Compile C source files into object files (depends on generated headers)
-%.o: %.c $(IDL_HEADERS)
+%.h: %.idl
+	$(WIDL) $(WIDLFLAGS) -o $@ $<
+
+%.o: %.c | headers
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Link everything into the final DLL
-$(MODULE): $(IDL_HEADERS) $(OBJS)
+$(MODULE): $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 
 clean:
 	rm -f $(OBJS) $(IDL_HEADERS) $(MODULE)
 
-.PHONY: all clean
+.PHONY: all headers clean
