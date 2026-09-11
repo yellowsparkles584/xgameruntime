@@ -20,7 +20,7 @@
 
 import "unknwn.idl";
 import "xgameruntimetypes.h";
-import "xspeechsynthesizer.h";
+import "xspeechsynthesizer.idl";
 
 cpp_quote("#ifdef __cplusplus")
 
