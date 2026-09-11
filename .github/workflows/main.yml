@@ -1,0 +1,18 @@
+name: build
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install gcc-mingw-w64-x86-64-win32 libwine-dev wine64-tools
+      - uses: actions/checkout@v6
+      - run: make
+
+      - name: Upload DLL artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-dll
+          path: "*.dll"
