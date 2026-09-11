@@ -75,7 +75,7 @@ interface IXThreadingImpl : IUnknown
     HRESULT XAsyncSchedule( [in, out] XAsyncBlock *asyncBlock, [in] UINT32 delayInMs );
     void    XAsyncComplete( [in, out] XAsyncBlock *asyncBlock, [in] HRESULT result, [in] SIZE_T requiredBufferSize );
     HRESULT XAsyncGetResult( [in, out] XAsyncBlock *asyncBlock, [in, optional] const void *identity, [in] SIZE_T bufferSize, [out, size_is(bufferSize)] void *buffer, [out, optional] SIZE_T *bufferUsed );
-    HRESULT XTaskQueueCreate( [in] XTaskQueueDispatchMode workDispatchMode, [in] XTaskQueueDispatchMode completionDispatchMode, [out] XTaskQueueHandle *queue );
+    HRESULT XTaskQueueCreate( [in] enum XTaskQueueDispatchMode workDispatchMode, [in] XTaskQueueDispatchMode completionDispatchMode, [out] XTaskQueueHandle *queue );
     HRESULT XTaskQueueCreateComposite( [in] XTaskQueuePortHandle workPort, [in] XTaskQueuePortHandle completionPort, [out] XTaskQueueHandle *queue );
     HRESULT XTaskQueueGetPort( [in] XTaskQueueHandle queue, [in] XTaskQueuePort port, [out] XTaskQueuePortHandle *portHandle );
     HRESULT XTaskQueueDuplicateHandle( [in] XTaskQueueHandle queueHandle, [out] XTaskQueueHandle *duplicatedHandle );
