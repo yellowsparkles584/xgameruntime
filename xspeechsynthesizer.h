@@ -49,7 +49,7 @@ struct XSpeechSynthesizerVoiceInformation
 {
     const char *Description;
     const char *DisplayName;
-    XSpeechSynthesizerVoiceGender Gender;
+    enum XSpeechSynthesizerVoiceGender Gender;
     const char *VoiceId;
     const char *Language;
 };
