@@ -60,7 +60,7 @@ typedef struct XTaskQueuePortObject *XTaskQueuePortHandle;
 typedef struct XTaskQueueRegistrationToken XTaskQueueRegistrationToken;
 
 typedef void __stdcall XTaskQueueCallback( void *context, BOOLEAN canceled );
-typedef void __stdcall XTaskQueueMonitorCallback( void *context, XTaskQueueHandle queue, XTaskQueuePort port );
+typedef void __stdcall XTaskQueueMonitorCallback( void *context, XTaskQueueHandle queue, enum XTaskQueuePort port );
 typedef void __stdcall XTaskQueueTerminatedCallback( void *context );
 
 struct XTaskQueueRegistrationToken
